@@ -4,6 +4,7 @@ import com.natwest.bank.api.dto.ErrorDetails;
 import com.natwest.bank.api.dto.PrimeApiResponse;
 import com.natwest.bank.api.exception.PrimeServiceException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * Controller advice around exceptions.
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     /**
@@ -24,6 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<PrimeApiResponse> handleValidationException(
         final ConstraintViolationException e) {
+        log.error("Validation error occurred ", e);
         final ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
             "Validation error: " + e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(PrimeServiceException.class)
     public ResponseEntity<PrimeApiResponse> handleKnownException(final PrimeServiceException e) {
+        log.error("Known runtime exception occurred ", e);
         final ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Runtime Error: " + e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -52,6 +56,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<PrimeApiResponse> handleUncaughtException(final Exception e) {
+        log.error("An exception occurred ", e);
         final ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "An unexpected error occurred: " + e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

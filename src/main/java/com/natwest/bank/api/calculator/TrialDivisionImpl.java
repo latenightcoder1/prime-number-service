@@ -5,6 +5,9 @@ import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Trial Division implementation for getting primes up to a given number.
+ */
 @Component
 @Slf4j
 public final class TrialDivisionImpl implements PrimeCalculator {

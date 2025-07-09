@@ -1,8 +1,5 @@
 package com.natwest.bank.api.dto;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
-@JacksonXmlRootElement(localName = "PrimeApiResponse")
 public record PrimeApiResponse(
     PrimeResult data,
     ErrorDetails error
