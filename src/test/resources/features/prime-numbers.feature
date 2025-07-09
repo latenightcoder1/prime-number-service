@@ -71,6 +71,16 @@ Feature: Prime number service Integration test cases.
     And the json response should not contain data
     And the json response should contain "number=1 is less than 2"
 
+  Scenario: Get prime numbers up to a given number in json format for a greater than 2147483646
+    Given I request primes up to 214748364623234
+    And with requested media type "json"
+    When I send the request to the service
+    Then the response status should be 400
+    And the response content type should be "application/json"
+    And the json response should contain error
+    And the json response should not contain data
+    And the json response should contain "number=214748364623234 is greater than 2147483646"
+
   Scenario: Get prime numbers up to a given number in xml format
     Given I request primes up to 10
     And with requested media type "xml"
@@ -83,6 +93,7 @@ Feature: Prime number service Integration test cases.
 
   Scenario: Get prime numbers up to a given number in xml format using sieve algorithm
     Given I request primes up to 10
+    And with requested media type "xml"
     And Using algorithm "sieve"
     When I send the request to the service
     Then the response status should be 200
@@ -115,3 +126,13 @@ Feature: Prime number service Integration test cases.
     And the xml response should contain error
     And the xml response should not contain data
     And the xml response should contain "number=-5 is less than 2"
+
+  Scenario: Get prime numbers up to a given number in xml format for a greater than 2147483646
+    Given I request primes up to 214748364623
+    And with requested media type "xml"
+    When I send the request to the service
+    Then the response status should be 400
+    And the response content type should be "application/xml"
+    And the xml response should contain error
+    And the xml response should not contain data
+    And the xml response should contain "number=214748364623 is greater than 2147483646"

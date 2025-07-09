@@ -38,6 +38,11 @@
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>${springdoc.version}</version>
     </dependency>
+    <!-- Actuator for health end point -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -95,5 +100,25 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Google jib - no local docker, no docker file -->
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.4.5</version>
+        <configuration>
+          <to>
+            <image>registry.hub.docker.com/suraj123kr/prime-number-service</image>
+            <auth>
+              <username>suraj123kr</username>
+              <password>personal-access-token</password>
+            </auth>
+          </to>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

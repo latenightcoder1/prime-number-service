@@ -42,8 +42,8 @@ public class PrimeSteps {
         //a placeholder
     }
 
-    @Given("I request primes up to {int}")
-    public void i_request_primes_up_to(final int number) {
+    @Given("I request primes up to {long}")
+    public void i_request_primes_up_to(final long number) {
         url = "/v1/primes/" + number;
     }
 
@@ -79,9 +79,9 @@ public class PrimeSteps {
     @Then("the response content type should be {string}")
     public void theResponseContentTypeShouldBe(final String mediaType)
         throws JsonProcessingException {
-        assertThat(response.getHeaders().getContentType().toString()).isEqualTo(mediaType);
+        assertThat(response.getHeaders().getContentType().toString()).startsWith(mediaType);
         rawResponse = response.getBody();
-        if (mediaType.equalsIgnoreCase("application/json")) {
+        if (mediaType.startsWith("application/json")) {
             jsonResponse = new ObjectMapper().readValue(rawResponse, PrimeApiResponse.class);
         }
     }

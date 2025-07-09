@@ -15,12 +15,12 @@ including a number
 
 ## Optional Extensions
 
-| Key Point                                                                                                                      | Comments                          |
-|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|
-| Deploy the solution to a chosen platform that we can access                                                                    |                                   |
-| Consider supporting varying return content types such as XML based, that should be configurable using the requested media type | ?mediaType=xml                    |
-| Consider ways to improve overall performance e.g. caching results, concurrent algorithm                                        | Guava Cache                       |
-| Consider supporting multiple algorithms that can be switched based on optional parameters                                      | ?algorithm=sieve,?algorithm=trial |
+| Key Point                                                                                                                      | Comments                                                                                                                |
+|--------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Deploy the solution to a chosen platform that we can access                                                                    | [link](http://prime-alb-1829416646.eu-north-1.elb.amazonaws.com/v1/primes/1000?mediaType=xml&sort=desc&algorithm=sieve) |
+| Consider supporting varying return content types such as XML based, that should be configurable using the requested media type | ?mediaType=xml                                                                                                          |
+| Consider ways to improve overall performance e.g. caching results, concurrent algorithm                                        | Guava Cache                                                                                                             |
+| Consider supporting multiple algorithms that can be switched based on optional parameters                                      | ?algorithm=sieve,?algorithm=trial                                                                                       |
 
 ## Solution
 
@@ -39,10 +39,13 @@ including a number
 
 ### Technical Aspect
 
-- Primary Technologies - Java 17, Spring Boot 3.5.3, Maven, Github
-- Other technologies - Guava Cache, Lombok, Jackson, Jakarta validation, Spring-doc, Markdown
-- Testing Frameworks- Junit 5, Cucumber, Gherkin, Mockito
-- Swagger- [link](http://localhost:8080/swagger-ui/index.html)
+- Primary technologies - Java 17, Spring Boot 3.5.3, Maven, Github
+- Other technologies - Guava Cache, Lombok, Jackson, Jakarta validation, Spring-doc, Actuator,
+  Markdown
+- Deployment technologies- Google gib, Docker hub, ECS, Fargate, ALB
+- Testing frameworks- Junit 5, Cucumber, Gherkin, Mockito
+- Swagger- [link](http://prime-alb-1829416646.eu-north-1.elb.amazonaws.com/swagger-ui/index.html)
+- Health check api- [link](http://prime-alb-1829416646.eu-north-1.elb.amazonaws.com/actuator/health)
 
 ## Implementation
 
@@ -148,3 +151,9 @@ public record ErrorDetails(int statusCode, String message) {
 
 - It doesn't support response media type through header "Accept" from client.
 - It supports only two prime calculation algorithms
+- Pagination support is not available for now (helpful in dealing with very large number)
+
+## Useful commands
+
+- to build application- <b>mvn clean install</b>
+- to build docker image & push to docker hub- <b>mvn compile jib:build</b>

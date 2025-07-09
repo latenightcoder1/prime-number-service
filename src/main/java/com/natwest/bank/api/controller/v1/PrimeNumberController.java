@@ -10,6 +10,7 @@ import com.natwest.bank.api.service.PrimeNumberService;
 import com.natwest.bank.api.utils.MediaTypeUtils;
 import com.natwest.bank.api.utils.PrimeAlgorithmUtils;
 import com.natwest.bank.api.utils.SortOrderUtils;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class PrimeNumberController {
     /**
      * Api to get all prime numbers up to a number.
      *
-     * @param number    {@link Integer} path param
+     * @param number    {@link Long} path param
      * @param mediaType {@link String} media type
      * @param algorithm {@link String} algorithm
      * @param sort      {@link String} query param
@@ -52,7 +53,8 @@ public class PrimeNumberController {
     @GetMapping(value = "/{number}", produces = {MediaType.APPLICATION_JSON_VALUE,
         MediaType.APPLICATION_XML_VALUE})
     public PrimeApiResponse getPrimesUpTo(
-        @PathVariable @Min(value = 2, message = "number=${validatedValue} is less than {value}") final int number,
+        @PathVariable @Min(value = 2, message = "number=${validatedValue} is less than {value}")
+        @Max(value = 2147483646, message = "number=${validatedValue} is greater than {value}") final long number,
         @RequestParam(value = PARAM_MEDIA_TYPE, required = false) String mediaType,
         @RequestParam(name = ALGORITHM, required = false) String algorithm,
         @RequestParam(name = SORT, required = false) String sort) {
@@ -65,7 +67,7 @@ public class PrimeNumberController {
         log.info(
             "Received being processed to fetch all primes up to \"{}\" in \"{}\" order in \"{}\" format using algorithm \"{}\"",
             number, sort, mediaType, algorithm);
-        final PrimeResult primeResult = primeNumberService.getPrimesUpTo(number, algorithm,
+        final PrimeResult primeResult = primeNumberService.getPrimesUpTo((int) number, algorithm,
             mediaType, sort);
         return PrimeApiResponse.success(primeResult);
     }
