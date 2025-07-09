@@ -11,8 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrimeAlgorithmFactory {
 
+    /**
+     * {@link TrialDivisionImpl} reference
+     */
     private final PrimeCalculator trialDivisionImpl;
 
+    /**
+     * {@link SieveOfEratosthenesImpl} reference
+     */
     private final PrimeCalculator sieveOfEratosthenesImpl;
 
     public PrimeAlgorithmFactory(final TrialDivisionImpl trialDivisionImpl,

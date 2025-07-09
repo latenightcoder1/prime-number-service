@@ -1,7 +1,7 @@
 # Prime Number Service
 
-RESTful Spring Boot microservice which calculates and returns all the prime numbers up to and
-including a number
+RESTful Spring Boot microservice which calculates and returns all the prime numbers up to (
+including) a number
 
 ## Requirements
 
@@ -26,7 +26,7 @@ including a number
 
 ### Functional Aspect
 
-- The service fetches all the primes upto a number.
+- The service fetches all the primes up to a number.
 - Currently supported algorithms - Sieve of Eratosthenes (sieve), Trial Division (trial).
 - If requested with unknown or without algorithm details - fetched from locally managed cache.
 - Cache default implementation is done using Sieve of Eratosthenes algorithm.
@@ -35,14 +35,15 @@ including a number
 - Response can be arranged in ascending or in descending order based on request.
 - Default ordering is ascending.
 - Service throws Bad Request for any number less than 2 with message "${number} is less than 2"
-- Service supports a number up to 2,147,483,646 (Integer max limit-1)
+- Service throws Bad Request for any number greater than 2,147,483,646 (Integer max limit-1) with
+  message "${number} is greater than 2,147,483,646"
 
 ### Technical Aspect
 
 - Primary technologies - Java 17, Spring Boot 3.5.3, Maven, Github
 - Other technologies - Guava Cache, Lombok, Jackson, Jakarta validation, Spring-doc, Actuator,
   Markdown
-- Deployment technologies- Google gib, Docker hub, ECS, Fargate, ALB
+- Deployment technologies- Google gib, Docker hub, AWS (ECS, Fargate, ALB)
 - Testing frameworks- Junit 5, Cucumber, Gherkin, Mockito
 - Swagger- [link](http://prime-alb-1829416646.eu-north-1.elb.amazonaws.com/swagger-ui/index.html)
 - Health check api- [link](http://prime-alb-1829416646.eu-north-1.elb.amazonaws.com/actuator/health)
@@ -60,8 +61,8 @@ sequenceDiagram
         participant Utils
         participant Service
         participant Factory
-        participant AlgorithmImpl
         participant Cache
+        participant AlgorithmImpl
         participant ExceptionHandler
     end
     Client ->> Filter: 1 HTTP Request

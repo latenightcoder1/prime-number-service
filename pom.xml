@@ -110,7 +110,7 @@
         <version>3.4.5</version>
         <configuration>
           <to>
-            <image>registry.hub.docker.com/suraj123kr/prime-number-service</image>
+            <image>registry.hub.docker.com/suraj123kr/prime-number-service:latest1</image>
             <auth>
               <username>suraj123kr</username>
               <password>personal-access-token</password>
