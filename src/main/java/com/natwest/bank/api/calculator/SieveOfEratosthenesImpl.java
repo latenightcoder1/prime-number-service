@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Sieve of Eratosthenes implementation for getting primes up to a given number.
  */
 @Slf4j
-@Component
+@Component("sieve")
 @Primary
 public final class SieveOfEratosthenesImpl implements PrimeCalculator {
 

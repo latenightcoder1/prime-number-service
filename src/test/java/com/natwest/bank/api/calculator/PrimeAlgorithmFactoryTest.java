@@ -3,32 +3,22 @@ package com.natwest.bank.api.calculator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("Prime calculator factory unit test cases")
 public class PrimeAlgorithmFactoryTest {
 
-    private PrimeAlgorithmFactory primeAlgorithmFactory;
+    private final PrimeCalculator sieveOfEratosthenes = new SieveOfEratosthenesImpl();
+    private final PrimeCalculator trialDivision = new TrialDivisionImpl();
 
-    @Mock
-    private SieveOfEratosthenesImpl sieveOfEratosthenes;
+    private PrimeAlgorithmFactory primeAlgorithmFactory = new PrimeAlgorithmFactory(
+        Map.of("sieve", sieveOfEratosthenes, "trial", trialDivision));
 
-    @Mock
-    private TrialDivisionImpl trialDivision;
-
-    @BeforeEach
-    public void setUp() {
-        primeAlgorithmFactory = new PrimeAlgorithmFactory(trialDivision, sieveOfEratosthenes);
-    }
 
     @ParameterizedTest()
     @ValueSource(strings = {"sieve", "SIEVE", "Sieve", "sIEVE", "SIeve"})

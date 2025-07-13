@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * Trial Division implementation for getting primes up to a given number.
  */
-@Component
+@Component("trial")
 @Slf4j
 public final class TrialDivisionImpl implements PrimeCalculator {
 

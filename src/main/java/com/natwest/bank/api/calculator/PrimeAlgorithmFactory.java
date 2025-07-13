@@ -1,8 +1,7 @@
 package com.natwest.bank.api.calculator;
 
-import static com.natwest.bank.api.constants.RequestParameters.SIEVE_OF_ERATOSTHENES;
-import static com.natwest.bank.api.constants.RequestParameters.TRIAL_DIVISION;
-
+import java.util.Map;
+import java.util.Map.Entry;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,19 +11,12 @@ import org.springframework.stereotype.Component;
 public class PrimeAlgorithmFactory {
 
     /**
-     * {@link TrialDivisionImpl} reference
+     * {@link Map} of {@link String} of {@link PrimeCalculator}
      */
-    private final PrimeCalculator trialDivisionImpl;
+    private final Map<String, PrimeCalculator> primeCalculatorMap;
 
-    /**
-     * {@link SieveOfEratosthenesImpl} reference
-     */
-    private final PrimeCalculator sieveOfEratosthenesImpl;
-
-    public PrimeAlgorithmFactory(final TrialDivisionImpl trialDivisionImpl,
-        final SieveOfEratosthenesImpl sieveOfEratosthenesImpl) {
-        this.trialDivisionImpl = trialDivisionImpl;
-        this.sieveOfEratosthenesImpl = sieveOfEratosthenesImpl;
+    public PrimeAlgorithmFactory(final Map<String, PrimeCalculator> primeCalculatorMap) {
+        this.primeCalculatorMap = primeCalculatorMap;
     }
 
     /**
@@ -34,12 +26,8 @@ public class PrimeAlgorithmFactory {
      * @return {@link PrimeCalculator}
      */
     public PrimeCalculator getPrimeCalculationAlgorithm(final String algorithm) {
-        PrimeCalculator primeCalculator = null;
-        if (SIEVE_OF_ERATOSTHENES.equalsIgnoreCase(algorithm)) {
-            primeCalculator = sieveOfEratosthenesImpl;
-        } else if (TRIAL_DIVISION.equalsIgnoreCase(algorithm)) {
-            primeCalculator = trialDivisionImpl;
-        }
-        return primeCalculator;
+        return primeCalculatorMap.entrySet().stream()
+            .filter(entry -> entry.getKey().equalsIgnoreCase(algorithm)).map(Entry::getValue)
+            .findFirst().orElse(null);
     }
 }
